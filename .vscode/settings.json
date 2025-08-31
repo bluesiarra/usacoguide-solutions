@@ -11,6 +11,11 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "__tree": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "iostream": "cpp",
+        "__node_handle": "cpp",
+        "queue": "cpp",
+        "set": "cpp",
+        "stack": "cpp"
     }
 }
