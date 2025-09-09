@@ -1,3 +1,5 @@
+#include <bits/stdc++.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,6 +8,9 @@
 using namespace std;
 
 int main() {
+    freopen("milkvisits.in", "r", stdin);
+    freopen("milkvisits.out", "w", stdout);
+
     int N, M;
     cin >> N >> M;
 
@@ -18,16 +23,19 @@ int main() {
     vector<vector<int>> edges(N+1, vector<int>());
     vector<int> cows(N+1);
 
-    for (int i = 0; i < N; i++)
+    for (int i = 1; i <= N; i++)
     {
-        char c = in[i];
+        char c = in[i-1];
         if (c == 'H'){
             cows[i] = 0;
         }
         else {
             cows[i] = 1;
         }
+
+
     }
+
 
     for (int i = 0; i < N-1; i++)
     {
@@ -55,28 +63,52 @@ int main() {
         else {
             milk = 1;
         }
+        //cout << "Looking for milk " << milk << " path between " << start << " and " << end;
 
         queue<int> BFS_queue;
+        queue<bool> BFS_checker;
         vector<bool> vst(N+1,false);
 
         BFS_queue.push(start);
+
+        if (cows[start] == milk)
+        {
+            BFS_checker.push(true);
+        }
+        else {
+            BFS_checker.push(false);
+        }
+
         vst[start] = true;
 
         while (!BFS_queue.empty()){
+            
             int q = BFS_queue.front();
             BFS_queue.pop();
 
+            int q_check = BFS_checker.front();
+            BFS_checker.pop();
+            //cout << "BFS visting " << q << endl;
             if (q == end)
-            {
-                possible = true;
+            {   
+                possible = q_check;
                 break;
             }
 
             for (int edge : edges[q]) 
             {
-                if (!vst[edge] && cows[edge] == milk)
+                //cout << "Checking edge to " << edge << " from " << q << endl;
+                if (!vst[edge])
                 {
+                    //cout << "Never visited " << edge << " cows[edge] is " << cows[edge] << " which is equal to " << milk << endl;
                     BFS_queue.push(edge);
+                    if (cows[edge] == milk)
+                    {
+                        BFS_checker.push(true);
+                    }
+                    else {
+                        BFS_checker.push(q_check);
+                    }
                     vst[edge] = true;
                 }
             }
